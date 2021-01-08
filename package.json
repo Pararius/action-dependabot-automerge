@@ -3,11 +3,10 @@
   "private": true,
   "main": "lib/main.js",
   "scripts": {
-    "build": "tsc",
+    "compile": "tsc",
     "lint": "eslint src/**/*.ts",
-    "package": "ncc build --source-map",
-    "test": "jest",
-    "all": "yarn build && yarn lint && yarn package && yarn test"
+    "build": "ncc build --source-map",
+    "test": "jest"
   },
   "dependencies": {
     "@actions/core": "^1.2.6"
