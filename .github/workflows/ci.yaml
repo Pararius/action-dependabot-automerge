@@ -11,9 +11,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: build
-        run: make
-      - name: check for changes after build
+      - name: Lint source
+        run: make lint
+      - name: Compile source
+        run: make compile
+      - name: Build source
+        run: make build
+      - name: Run tests
+        run: make test
+      - name: Check for compile/build changes
         run: |
           if [[ -n $(git status --porcelain) ]]; then
             echo "git working directory dirty, probably forgotten to include compiled source"
