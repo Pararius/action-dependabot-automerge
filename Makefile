@@ -4,11 +4,11 @@
 install:
 	docker-compose run --rm yarn install
 
-compile:
-	docker-compose run --rm yarn compile
-
 lint:
 	docker-compose run --rm yarn lint
+
+compile:
+	docker-compose run --rm yarn compile
 
 build:
 	docker-compose run --rm yarn build
@@ -16,4 +16,4 @@ build:
 test:
 	docker-compose run --rm yarn test
 
-all: install compile lint build test
+all: install lint compile build test
