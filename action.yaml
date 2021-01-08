@@ -1,0 +1,5 @@
+name: Dependabot automerge
+description: Automerge pull requests from Dependabot
+runs:
+  using: node12
+  main: dist/index.js
