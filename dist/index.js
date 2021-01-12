@@ -8827,6 +8827,11 @@ async function run() {
   const token = core.getInput("token") || process.env.GITHUB_TOKEN;
 
   if (!token) {
+    core.info('debug env vars:');
+    for (let envKey in process.env) {
+      core.info(`${envKey}=${process.env[envKey]}`);
+    }
+
     throw new Error(
       "No GitHub token is supplied, add \"token\" to your configuration " +
       "or set the `GITHUB_TOKEN` environment variable"
@@ -8853,7 +8858,6 @@ async function run() {
 
 run()
   .catch((err) => {
-    core.error(err);
     core.setFailed(err.message);
   });
 
