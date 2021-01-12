@@ -18,17 +18,11 @@ async function run() {
 
   const level = core.getInput("level");
   const requestMerge = core.getInput("request-merge") || "true";
-  const token = core.getInput("token") || process.env.GITHUB_TOKEN;
+  const token = core.getInput("token");
 
   if (!token) {
-    core.info('debug env vars:');
-    for (let envKey in process.env) {
-      core.info(`${envKey}=${process.env[envKey]}`);
-    }
-
     throw new Error(
-      "No GitHub token is supplied, add \"token\" to your configuration " +
-      "or set the `GITHUB_TOKEN` environment variable"
+      "No GitHub token is supplied, add \"token\" to your configuration"
     );
   }
 
