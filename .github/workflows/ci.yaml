@@ -25,5 +25,3 @@ jobs:
             echo "git working directory dirty, probably forgotten to commit built source"
           fi
       - uses: Pararius/action-dependabot-automerge@main
-        with:
-          token: ${{ secrets.TREEHOUSE_BOT_TOKEN }}
