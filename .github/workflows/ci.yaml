@@ -24,3 +24,4 @@ jobs:
           if [[ -n $(git status --porcelain) ]]; then
             echo "git working directory dirty, probably forgotten to commit built source"
           fi
+      - uses: Pararius/action-dependabot-automerge@main
