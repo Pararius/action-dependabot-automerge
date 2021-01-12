@@ -15,14 +15,12 @@ jobs:
         run: make install
       - name: Lint source
         run: make lint
-      - name: Compile source
-        run: make compile
       - name: Build source
         run: make build
       - name: Run tests
         run: make test
-      - name: Check for compile/build changes
+      - name: Check for build changes
         run: |
           if [[ -n $(git status --porcelain) ]]; then
-            echo "git working directory dirty, probably forgotten to include compiled source"
+            echo "git working directory dirty, probably forgotten to commit built source"
           fi
