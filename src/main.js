@@ -20,9 +20,9 @@ async function run() {
   const requestMerge = core.getInput("request-merge") || "true";
   const token = core.getInput("token") || process.env.GITHUB_TOKEN;
 
-  console.log('debug env vars:');
+  core.info('debug env vars:');
   for (let envKey in process.env) {
-    console.log(`${envKey}=${process.env[envKey]}`);
+    core.info(`${envKey}=${process.env[envKey]}`);
   }
 
   if (!token) {
