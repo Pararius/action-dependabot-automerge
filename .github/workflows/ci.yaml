@@ -10,7 +10,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v1
       - name: Install dependencies
         run: make install
       - name: Lint source
@@ -25,3 +25,5 @@ jobs:
             echo "git working directory dirty, probably forgotten to commit built source"
           fi
       - uses: Pararius/action-dependabot-automerge@main
+        with:
+          token: ${{ secrets.TREEHOUSE_BOT_TOKEN }}
