@@ -5,9 +5,10 @@ runs:
   main: dist/index.js
 inputs:
   token:
-    description: GitHub token to approve the PR with. Defaults to `env.GITHUB_TOKEN`
+    description: GitHub token to approve the PR with. Defaults to repository token.
     required: false
+    default: ${{ github.token }}
   level:
-    description: Only approve/merge when the increment is major/minor/patch
+    description: Only approve/merge when the increment is major/minor/patch.
     required: false
     default: minor
