@@ -10,11 +10,13 @@ const versionRegex = /v?(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(-[a-zA-Z0-9-]+)
 const titleRegex = new RegExp(`from (?<from>${versionRegex.source}) to (?<to>${versionRegex.source})`);
 
 const levelWeight = level => {
-  if (!weights.hasOwnProperty(level)) {
+  const weight = weights[level] || undefined;
+
+  if (!weight) {
     throw new Error(`Invalid level specified: "${level}". Please set level to "major", "minor", or "patch".`);
   }
 
-  return weights[level];
+  return weight;
 };
 
 const extractVersions = title => {
