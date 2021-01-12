@@ -2,7 +2,7 @@
   "name": "action-dependabot-automerge",
   "private": true,
   "main": "src/main.js",
-  "type": "module",
+  "type": "commonjs",
   "scripts": {
     "lint": "eslint src/**/*.js",
     "build": "ncc build --source-map",
@@ -20,8 +20,21 @@
   "jest": {
     "clearMocks": true,
     "moduleFileExtensions": ["js"],
-    "testEnvironment": "node",
     "testMatch": ["**/*.test.js"],
     "verbose": true
+  },
+  "eslintConfig": {
+    "extends": "eslint:recommended",
+    "parserOptions": {
+      "ecmaVersion": 2018
+    },
+    "env": {
+      "es2017": true,
+      "node": true
+    },
+    "rules": {
+      "eslint-comments/no-use": "off",
+      "import/no-namespace": "off"
+    }
   }
 }

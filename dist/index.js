@@ -5847,25 +5847,60 @@ function wrappy (fn, cb) {
 
 /***/ }),
 
-/***/ 302:
-/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __nccwpck_require__) => {
+/***/ 713:
+/***/ ((__unused_webpack_module, __unused_webpack_exports, __nccwpck_require__) => {
 
-"use strict";
-// ESM COMPAT FLAG
-__nccwpck_require__.r(__webpack_exports__);
+const core = __nccwpck_require__(186);
+const github = __nccwpck_require__(438);
+const PullRequest = __nccwpck_require__(599);
 
-// EXTERNAL MODULE: ./node_modules/@actions/core/lib/core.js
-var core = __nccwpck_require__(186);
-// EXTERNAL MODULE: ./node_modules/@actions/github/lib/github.js
-var github = __nccwpck_require__(438);
-// CONCATENATED MODULE: ./src/pull-request.js
+async function run() {
+  const { repo, actor, payload: { pull_request } } = github.context;
 
+  if (pull_request === undefined) {
+    core.info("This action can only be triggered on a pull request");
+    return;
+  }
+
+  if (!['dependabot[bot]', 'dependabot-preview[bot]'].includes(actor)) {
+    core.info("This action only handles pull requests from Dependabot");
+    return;
+  }
+
+  const requestMerge = core.getInput("request-merge") || "true";
+  const token = core.getInput("token") || process.env.GITHUB_TOKEN;
+
+  const pr = new PullRequest(
+    token,
+    repo.owner,
+    repo.repo,
+    pull_request.number
+  );
+
+  if (! await pr.isApproved()) {
+    await pr.approve(requestMerge.toLowerCase() === "true");
+  }
+}
+
+run()
+  .catch((err) => {
+    core.error(err);
+    core.setFailed(err.message);
+  });
+
+
+/***/ }),
+
+/***/ 599:
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+
+const github = __nccwpck_require__(438);
 
 const APPROVE_EVENT = 'APPROVE';
 const APPROVED_STATE = 'APPROVED';
 const AUTO_MERGE_COMMENT = '@dependabot squash and merge';
 
-class PullRequest {
+module.exports = class PullRequest {
   constructor(token, owner, repo, number) {
     this.github = github.getOctokit(token);
     this.owner = owner;
@@ -5873,15 +5908,21 @@ class PullRequest {
     this.number = number;
   }
 
-  async approve() {
+  async approve(autoMerge = false) {
+    let options = {
+      owner: this.owner,
+      repo: this.repo,
+      pull_number: this.number,
+      event: APPROVE_EVENT,
+    };
+
+    if (autoMerge) {
+      options.body = AUTO_MERGE_COMMENT;
+    }
+
     this.github
       .pulls
-      .createReview({
-        owner: this.owner,
-        repo: this.repo,
-        pull_number: this.number,
-        event: APPROVE_EVENT,
-      })
+      .createReview(options)
     ;
   }
 
@@ -5932,46 +5973,6 @@ class PullRequest {
     ;
   }
 }
-
-// CONCATENATED MODULE: ./src/main.js
-
-
-
-
-async function run() {
-  const { repo, actor, payload: { pull_request } } = github.context;
-
-  if (pull_request === undefined) {
-    throw new Error("This action can only be triggered on a pull request")
-  }
-
-  if (!['dependabot[bot]', 'dependabot-preview[bot]'].includes(actor)) {
-    core.warning(`This action only handles pull requests from Dependabot`);
-    return;
-  }
-
-  const token = core.getInput("token") || process.env.GITHUB_TOKEN;
-  const pr = new PullRequest(
-    token,
-    repo.owner,
-    repo.repo,
-    pull_request.number
-  );
-
-  if (! await pr.isApproved()) {
-    await pr.approve();
-  }
-
-  if (! await pr.hasAutoMergeComment()) {
-    await pr.requestMerge();
-  }
-}
-
-run()
-  .catch((err) => {
-    core.error(err);
-    core.setFailed(err.message);
-  });
 
 
 /***/ }),
@@ -6120,24 +6121,13 @@ module.exports = require("zlib");;
 /******/ 	}
 /******/ 	
 /************************************************************************/
-/******/ 	/* webpack/runtime/make namespace object */
-/******/ 	(() => {
-/******/ 		// define __esModule on exports
-/******/ 		__nccwpck_require__.r = (exports) => {
-/******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
-/******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
-/******/ 			}
-/******/ 			Object.defineProperty(exports, '__esModule', { value: true });
-/******/ 		};
-/******/ 	})();
-/******/ 	
 /******/ 	/* webpack/runtime/compat */
 /******/ 	
 /******/ 	__nccwpck_require__.ab = __dirname + "/";/************************************************************************/
 /******/ 	// module exports must be returned from runtime so entry inlining is disabled
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
-/******/ 	return __nccwpck_require__(302);
+/******/ 	return __nccwpck_require__(713);
 /******/ })()
 ;
 //# sourceMappingURL=index.js.map

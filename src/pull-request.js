@@ -1,10 +1,10 @@
-import github from "@actions/github";
+const github = require("@actions/github");
 
 const APPROVE_EVENT = 'APPROVE';
 const APPROVED_STATE = 'APPROVED';
 const AUTO_MERGE_COMMENT = '@dependabot squash and merge';
 
-export default class PullRequest {
+module.exports = class PullRequest {
   constructor(token, owner, repo, number) {
     this.github = github.getOctokit(token);
     this.owner = owner;
@@ -12,15 +12,21 @@ export default class PullRequest {
     this.number = number;
   }
 
-  async approve() {
+  async approve(autoMerge = false) {
+    let options = {
+      owner: this.owner,
+      repo: this.repo,
+      pull_number: this.number,
+      event: APPROVE_EVENT,
+    };
+
+    if (autoMerge) {
+      options.body = AUTO_MERGE_COMMENT;
+    }
+
     this.github
       .pulls
-      .createReview({
-        owner: this.owner,
-        repo: this.repo,
-        pull_number: this.number,
-        event: APPROVE_EVENT,
-      })
+      .createReview(options)
     ;
   }
 

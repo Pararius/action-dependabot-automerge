@@ -1,20 +1,23 @@
-import core from "@actions/core";
-import github from "@actions/github";
-import PullRequest from "./pull-request.js";
+const core = require("@actions/core");
+const github = require("@actions/github");
+const PullRequest = require("./pull-request.js");
 
 async function run() {
   const { repo, actor, payload: { pull_request } } = github.context;
 
   if (pull_request === undefined) {
-    throw new Error("This action can only be triggered on a pull request")
-  }
-
-  if (!['dependabot[bot]', 'dependabot-preview[bot]'].includes(actor)) {
-    core.warning(`This action only handles pull requests from Dependabot`);
+    core.info("This action can only be triggered on a pull request");
     return;
   }
 
+  if (!['dependabot[bot]', 'dependabot-preview[bot]'].includes(actor)) {
+    core.info("This action only handles pull requests from Dependabot");
+    return;
+  }
+
+  const requestMerge = core.getInput("request-merge") || "true";
   const token = core.getInput("token") || process.env.GITHUB_TOKEN;
+
   const pr = new PullRequest(
     token,
     repo.owner,
@@ -23,11 +26,7 @@ async function run() {
   );
 
   if (! await pr.isApproved()) {
-    await pr.approve();
-  }
-
-  if (! await pr.hasAutoMergeComment()) {
-    await pr.requestMerge();
+    await pr.approve(requestMerge.toLowerCase() === "true");
   }
 }
 
