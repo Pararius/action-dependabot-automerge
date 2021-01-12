@@ -1,5 +1,5 @@
 .DEFAULT_GOAL := all
-.PHONY: install all
+.PHONY: install lint build test all
 
 install:
 	docker-compose run --rm yarn install

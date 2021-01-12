@@ -7,3 +7,7 @@ inputs:
   token:
     description: GitHub token to approve the PR with. Defaults to `env.GITHUB_TOKEN`
     required: false
+  level:
+    description: Only approve/merge when the increment is major/minor/patch
+    required: false
+    default: minor

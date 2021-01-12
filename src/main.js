@@ -1,6 +1,7 @@
 const core = require("@actions/core");
 const github = require("@actions/github");
 const PullRequest = require("./pull-request.js");
+const {extractVersions, levelIncludesUpgrade} = require("./version.js");
 
 async function run() {
   const { repo, actor, payload: { pull_request } } = github.context;
@@ -15,6 +16,7 @@ async function run() {
     return;
   }
 
+  const level = core.getInput("level");
   const requestMerge = core.getInput("request-merge") || "true";
   const token = core.getInput("token") || process.env.GITHUB_TOKEN;
 
@@ -31,6 +33,12 @@ async function run() {
     repo.repo,
     pull_request.number
   );
+
+  const [oldVersion, newVersion] = extractVersions(pull_request.title);
+  if (!levelIncludesUpgrade(oldVersion, newVersion, level)) {
+    core.info(`Update from ${oldVersion} to ${newVersion} is higher than a "${level}" update, skipping auto approve/merge`);
+    return;
+  }
 
   if (! await pr.isApproved()) {
     await pr.approve(requestMerge.toLowerCase() === "true");
