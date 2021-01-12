@@ -2,7 +2,7 @@ const github = require("@actions/github");
 
 const APPROVE_EVENT = 'APPROVE';
 const APPROVED_STATE = 'APPROVED';
-const AUTO_MERGE_COMMENT = '@dependabot squash and merge';
+const AUTO_MERGE_COMMENT = '@dependabot merge';
 
 module.exports = class PullRequest {
   constructor(token, owner, repo, number) {
