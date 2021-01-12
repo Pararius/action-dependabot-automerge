@@ -6,4 +6,4 @@ services:
     entrypoint: yarn
     working_dir: /app
     volumes:
-    - .:/app
+    - .:/app:cached
