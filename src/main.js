@@ -25,12 +25,11 @@ async function run() {
     for (let envKey in process.env) {
       core.info(`${envKey}=${process.env[envKey]}`);
     }
-    core.error("no token specified");
-    return;
-    // throw new Error(
-    //   "No GitHub token is supplied, add \"token\" to your configuration " +
-    //   "or set the `GITHUB_TOKEN` environment variable"
-    // );
+
+    throw new Error(
+      "No GitHub token is supplied, add \"token\" to your configuration " +
+      "or set the `GITHUB_TOKEN` environment variable"
+    );
   }
 
   const pr = new PullRequest(
