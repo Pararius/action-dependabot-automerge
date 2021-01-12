@@ -3,3 +3,7 @@ description: Automerge pull requests from Dependabot
 runs:
   using: node12
   main: dist/index.js
+inputs:
+  token:
+    description: GitHub token to approve the PR with. Defaults to `env.GITHUB_TOKEN`
+    required: false
