@@ -44,23 +44,33 @@ describe('extract versions from pull request title', function () {
 
 describe('check if upgrade matches given level', function () {
   const includes = [
-    ['patch', 'v1.2',   'v1.2.1'],
-    ['patch', 'v1.2.0', 'v1.2.1'],
+    ['patch', 'v1.2',        'v1.2.1'],
+    ['patch', 'v1.2.0',      'v1.2.1'],
+    ['patch', 'v1.2.0-beta', 'v1.2.1-beta'],
 
-    ['minor', 'v1',     'v1.2.1'],
-    ['minor', 'v1.2',   'v1.3.0'],
-    ['minor', 'v1.2.0', 'v1.2.1'],
-    ['minor', 'v1.2.0', 'v1.3.0'],
+    ['minor', 'v1',         'v1.2'],
+    ['minor', 'v1',         'v1.2.1'],
+    ['minor', 'v1.2',       'v1.3'],
+    ['minor', 'v1.2',       'v1.3.0'],
+    ['minor', 'v1.2.0',     'v1.2.1'],
+    ['minor', 'v1.2.0',     'v1.3.0'],
+    ['minor', 'v1.2.0@rc1', 'v1.3.0@rc1'],
 
-    ['major', 'v1',     'v1.2.3'],
-    ['major', 'v1.2',   'v1.3.0'],
-    ['major', 'v1.2.0', 'v1.2.1'],
-    ['major', 'v1.2.0', 'v1.3.0'],
-    ['major', 'v1.2.0', 'v2.0.0'],
+    ['major', 'v1',      'v2'],
+    ['major', 'v1',      'v1.2'],
+    ['major', 'v1',      'v1.2.3'],
+    ['major', 'v1.2',    'v1.3.0'],
+    ['major', 'v1.2.0',  'v1.2.1'],
+    ['major', 'v1.2.0',  'v1.3.0'],
+    ['major', 'v1.2.0',  'v2.0.0'],
+    ['major', 'v1@beta', 'v2@beta'],
   ];
 
   const excludes = [
+    ['patch', 'v1',     'v2'],
+    ['patch', 'v1',     'v1.2'],
     ['patch', 'v1',     'v1.2.0'],
+    ['patch', 'v1.2',   'v1.3'],
     ['patch', 'v1.2',   'v1.3.0'],
     ['patch', 'v1.2.0', 'v1.2.0'],
     ['patch', 'v1.2.0', 'v1.3.0'],
@@ -70,18 +80,24 @@ describe('check if upgrade matches given level', function () {
     ['patch', 'v1.2.0', 'v1.2.1-beta'],
     ['patch', 'v1.2.0', 'v1.3.0-beta'],
     ['patch', 'v1.2.0', 'v2.0.0-beta'],
+    ['patch', 'v1.2.0-alpha1', 'v1.2.0-alpha2'],
 
+    ['minor', 'v1',     'v2'],
+    ['minor', 'v1',     'v2.0'],
     ['minor', 'v1',     'v2.0.0'],
+    ['minor', 'v1.2',   'v2.0.0'],
     ['minor', 'v1.2.0', 'v2.0.0'],
     ['minor', 'v1.2.0', 'v1.1.0'],
     ['minor', 'v1.2.0', 'v0.9.0'],
     ['minor', 'v1.2.0', 'v1.3.0-beta'],
     ['minor', 'v1.2.0', 'v2.0.0-beta'],
+    ['minor', 'v1.2.0-alpha1', 'v1.2.0-alpha2'],
 
     ['major', 'v1.2.0', 'v1.1.0'],
     ['major', 'v1.2.0', 'v0.9.0'],
     ['major', 'v1.2.0', 'v1.3.0-beta'],
     ['major', 'v1.2.0', 'v2.0.0-beta'],
+    ['major', 'v1.2.0-alpha1', 'v1.2.0-alpha2'],
   ];
 
   includes.forEach(data => {
