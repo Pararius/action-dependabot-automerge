@@ -11,8 +11,6 @@ async function run() {
     return;
   }
 
-  core.info(JSON.stringify(pull_request))
-
   const author = pull_request.user.login;
 
   if (!['dependabot[bot]', 'dependabot-preview[bot]'].includes(author)) {
@@ -23,12 +21,6 @@ async function run() {
   const level = core.getInput("level");
   const requestMerge = core.getInput("request-merge") || "true";
   const token = core.getInput("token");
-
-  if (token === core.getInput("default_token")) {
-    core.info("Using default GH token");
-  } else {
-    core.info("Using custom GH token");
-  }
 
   if (!token) {
     throw new Error(
