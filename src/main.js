@@ -4,14 +4,18 @@ const PullRequest = require("./pull-request.js");
 const {extractVersions, levelIncludesUpgrade} = require("./version.js");
 
 async function run() {
-  const { repo, actor, payload: { pull_request } } = github.context;
+  const { repo, payload: { pull_request } } = github.context;
 
   if (pull_request === undefined) {
     core.info("This action can only be triggered on a pull request");
     return;
   }
 
-  if (!['dependabot[bot]', 'dependabot-preview[bot]'].includes(actor)) {
+  core.info(JSON.stringify(pull_request))
+
+  const author = pull_request.user.login;
+
+  if (!['dependabot[bot]', 'dependabot-preview[bot]'].includes(author)) {
     core.info("This action only handles pull requests from Dependabot");
     return;
   }
