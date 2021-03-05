@@ -8,15 +8,13 @@
     "build": "ncc build --source-map",
     "test": "mocha"
   },
-  "dependencies": {
+  "devDependencies": {
     "@actions/core": "^1.2.6",
     "@actions/github": "^4.0.0",
-    "semver": "^7.3.4"
-  },
-  "devDependencies": {
     "@vercel/ncc": "^0.27.0",
     "eslint": "^7.17.0",
-    "mocha": "^8.2.1"
+    "mocha": "^8.2.1",
+    "semver": "^7.3.4"
   },
   "eslintConfig": {
     "extends": "eslint:recommended",
