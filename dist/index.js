@@ -8852,6 +8852,8 @@ async function run() {
 
 run()
   .catch((err) => {
+    core.error(err.name);
+    core.error(err.stack);
     core.setFailed(err.message);
   });
 
