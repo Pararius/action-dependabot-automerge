@@ -4,6 +4,10 @@ runs:
   using: node12
   main: dist/index.js
 inputs:
+  default_token:
+    description: default GH token
+    required: false
+    default: ${{ github.token }}
   token:
     description: GitHub token to approve the PR with. Defaults to repository token.
     required: false

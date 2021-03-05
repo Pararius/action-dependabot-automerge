@@ -20,6 +20,12 @@ async function run() {
   const requestMerge = core.getInput("request-merge") || "true";
   const token = core.getInput("token");
 
+  if (token === core.getInput("default_token")) {
+    core.info("Using default GH token");
+  } else {
+    core.info("Using custom GH token");
+  }
+
   if (!token) {
     throw new Error(
       "No GitHub token is supplied, add \"token\" to your configuration"
@@ -46,7 +52,6 @@ async function run() {
 
 run()
   .catch((err) => {
-    core.error(err.name);
-    core.error(err.stack);
     core.setFailed(err.message);
+    core.error(err.stack);
   });
