@@ -8,7 +8,7 @@ const weights = {
 
 const number = `(0|[1-9]\\d*)`;
 const version = `v?${number}(\\.${number}(\\.${number})?)?`;
-const release = `${version}(-[a-zA-Z0-9-]+)?`
+const release = `${version}(-[a-zA-Z0-9-.]+)?`
 const titleRegex = new RegExp(`from (?<from>${release}) to (?<to>${release})`);
 
 const levelWeight = level => {
