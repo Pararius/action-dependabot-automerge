@@ -118,6 +118,10 @@ describe('supports suffixes that don\'t denote pre-releases', function () {
     assert.deepStrictEqual(
       extractVersions("Bump node from 15.5.1-alpine to 15.6.0-alpine"),
       ["15.5.1-alpine", "15.6.0-alpine"]
+    );
+    assert.deepStrictEqual(
+      extractVersions("Bump node from 15.5.1-fpm-alpine3.14 to 15.6.0-fpm-alpine3.14"),
+      ["15.5.1-fpm-alpine3.14", "15.6.0-fpm-alpine3.14"]
     )
   });
 
@@ -125,7 +129,13 @@ describe('supports suffixes that don\'t denote pre-releases', function () {
     assert.ok(levelIncludesUpgrade("15.5.1-alpine", "15.5.2-alpine", "patch"));
     assert.ok(levelIncludesUpgrade("15.5.1-alpine", "15.6.0-alpine", "minor"));
     assert.ok(levelIncludesUpgrade("15.5.1-alpine", "16.0.0-alpine", "major"));
-  })
+  });
+
+  it('supports upgrades for "<major>.<minor>.<patch>-fpm-alpine3.14" formats', function () {
+    assert.ok(levelIncludesUpgrade("15.5.1-fpm-alpine3.14", "15.5.2-fpm-alpine3.14", "patch"));
+    assert.ok(levelIncludesUpgrade("15.5.1-fpm-alpine3.14", "15.6.0-fpm-alpine3.14", "minor"));
+    assert.ok(levelIncludesUpgrade("15.5.1-fpm-alpine3.14", "16.0.0-fpm-alpine3.14", "major"));
+  });
 });
 
 describe('level must be valid', function () {
