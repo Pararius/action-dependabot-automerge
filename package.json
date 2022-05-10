@@ -8,6 +8,9 @@
     "build": "ncc build --source-map",
     "test": "mocha"
   },
+  "engines": {
+    "node": "^16.0"
+  },
   "devDependencies": {
     "@actions/core": "^1.2.6",
     "@actions/github": "^5.0.0",

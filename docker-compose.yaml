@@ -2,7 +2,7 @@ version: '3.7'
 
 services:
   yarn:
-    image: node:12-alpine3.12
+    image: node:16-alpine3.14
     entrypoint: yarn
     working_dir: /app
     volumes:

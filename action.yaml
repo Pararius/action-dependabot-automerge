@@ -1,7 +1,7 @@
 name: Dependabot automerge
 description: Automerge pull requests from Dependabot
 runs:
-  using: node12
+  using: node16
   main: dist/index.js
 inputs:
   token:
