@@ -6,7 +6,7 @@ const AUTO_MERGE_COMMENT = '@dependabot merge';
 
 module.exports = class PullRequest {
   constructor(token, owner, repo, number) {
-    this.github = github.getOctokit(token);
+    this.github = github.getOctokit(token).rest;
     this.owner = owner;
     this.repo = repo;
     this.number = number;
